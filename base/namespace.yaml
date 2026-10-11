@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: product-intelligence
+  labels:
+    name: product-intelligence
+    app.kubernetes.io/part-of: product-intelligence-platform
+

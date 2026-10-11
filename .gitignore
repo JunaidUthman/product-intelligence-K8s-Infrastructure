@@ -1,0 +1,43 @@
+# ==============================================================================
+# Secrets & Configurations sensibles
+# ==============================================================================
+*secrets.yaml
+*.secret.yaml
+realsecrets.yaml
+
+# Fichiers d'environnement
+.env
+.env.*
+!.env.example
+
+# Mais autoriser explicitement les templates d'exemples
+!*secrets.example.yaml
+
+# ==============================================================================
+# Identifiants Kubernetes, Cloud & Certificats TLS
+# ==============================================================================
+kubeconfig*
+*.kubeconfig
+config
+*.pem
+*.key
+*.crt
+*.pfx
+
+# ==============================================================================
+# Sauvegardes & Dumps de base de données
+# ==============================================================================
+*.sql
+*.sql.gz
+*.dump
+
+# ==============================================================================
+# Fichiers temporaires, logs & OS
+# ==============================================================================
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
