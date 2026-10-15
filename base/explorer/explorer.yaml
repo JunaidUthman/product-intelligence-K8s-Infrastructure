@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: explorer
-          image: product-explorer:latest
+          image: junaiduthman/product-explorer:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000

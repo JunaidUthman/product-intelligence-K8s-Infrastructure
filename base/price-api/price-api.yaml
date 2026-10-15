@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: price-api
-          image: product-price-api:latest
+          image: junaiduthman/product-price-api:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
