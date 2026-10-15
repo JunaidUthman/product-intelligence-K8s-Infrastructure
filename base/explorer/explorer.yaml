@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: explorer
-          image: junaiduthman/product-explorer:v1
+          image: junaiduthman/product-explorer:v-fb7e964
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -91,4 +91,3 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: product-explorer
-
