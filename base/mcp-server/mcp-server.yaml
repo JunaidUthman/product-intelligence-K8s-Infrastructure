@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mcp-server
-          image: junaiduthman/product-intelligence-mcp:v-0b2a473
+          image: junaiduthman/product-intelligence-mcp:v-beeb6ff
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3001
