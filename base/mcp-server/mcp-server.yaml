@@ -74,7 +74,3 @@ spec:
       name: sse-http
   selector:
     app.kubernetes.io/name: product-intelligence-mcp
-  template:
-    spec:
-      containers:
-        - image: junaiduthman/product-intelligence-mcp:v-0b2a473
