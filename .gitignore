@@ -2,6 +2,7 @@
 # Secrets & Configurations sensibles
 # ==============================================================================
 *secrets.yaml
+*secret.yaml
 *.secret.yaml
 realsecrets.yaml
 
@@ -11,7 +12,7 @@ realsecrets.yaml
 !.env.example
 
 # Mais autoriser explicitement les templates d'exemples
-!*secrets.example.yaml
+!*secret*.example.yaml
 
 # ==============================================================================
 # Identifiants Kubernetes, Cloud & Certificats TLS

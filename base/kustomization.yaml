@@ -6,7 +6,6 @@ namespace: product-intelligence
 resources:
   - namespace.yaml
   - configmap.yaml
-  - secrets.yaml
   - network-policies.yaml
   - price-api/price-api.yaml
   - mcp-server/mcp-server.yaml

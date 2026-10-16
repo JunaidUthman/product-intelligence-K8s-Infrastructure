@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: product-intelligence-platform
+  namespace: argocd
+  finalizers:
+    # Garantit que les ressources dans Kubernetes sont supprimées proprement
+    # si jamais cette Application ArgoCD est détruite
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/JunaidUthman/product-intelligence-K8s-Infrastructure.git
+    targetRevision: main
+    path: base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: product-intelligence
+  syncPolicy:
+    automated:
+      prune: true       # Supprime automatiquement du cluster les ressources supprimées de Git
+      selfHeal: true    # Rétablit l'état Git si quelqu'un modifie manuellement le cluster
+    syncOptions:
+      - CreateNamespace=true
+
