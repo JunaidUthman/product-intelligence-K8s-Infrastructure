@@ -12,7 +12,7 @@ Comme le dépôt est public, **aucun secret ni token d'authentification Git n'es
 argocd/
 ├── install/
 │   ├── namespace.yaml             # Namespace argocd
-│   └── kustomization.yaml         # Installation officielle d'ArgoCD (v2.10.4)
+│   └── kustomization.yaml         # Installation officielle d'ArgoCD (stable)
 ├── root-app.yaml                  # Application racine (App of Apps)
 ├── apps/                          # Applications enfants observées par root-app
 │   ├── kustomization.yaml         # Agrégateur Kustomize des applications
