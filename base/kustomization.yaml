@@ -10,3 +10,5 @@ resources:
   - price-api/price-api.yaml
   - mcp-server/mcp-server.yaml
   - explorer/explorer.yaml
+  - ingress.yaml
+
