@@ -17,7 +17,8 @@ data:
   MCP_PORT: "3001"
   PRICE_API_PORT: "8000"
 
-  # Host database connection parameters
-  MYSQL_HOST: "host.minikube.internal"
+  # Database connection parameters (Route 53 Private DNS in AWS VPC)
+  MYSQL_HOST: "db.product-intelligence.internal"
   MYSQL_PORT: "3306"
   MYSQL_DATABASE: "product_intelligence"
+
