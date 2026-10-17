@@ -1,24 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aws-load-balancer-controller
+  name: root-application
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  # Finalizer omis volontairement pour protéger les applications enfants contre toute suppression accidentelle en cascade
 spec:
   project: default
   source:
     repoURL: https://github.com/JunaidUthman/product-intelligence-K8s-Infrastructure.git
     targetRevision: main
-    path: aws-load-balancer-controller
+    path: argocd/apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true
 

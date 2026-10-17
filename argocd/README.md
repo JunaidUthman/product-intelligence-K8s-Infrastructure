@@ -1,6 +1,6 @@
-# Déploiement GitOps ArgoCD
+# Déploiement GitOps ArgoCD (Pattern "App of Apps")
 
-Ce dossier contient les manifests déclaratifs permettant d'installer et de configurer **ArgoCD** de manière 100 % reproductible pour la plateforme Product Intelligence.
+Ce dossier contient les manifests déclaratifs permettant d'installer et d'orchestrer **ArgoCD** de manière 100 % reproductible pour l'ensemble du cluster via le pattern **App of Apps**.
 
 Comme le dépôt est public, **aucun secret ni token d'authentification Git n'est nécessaire** : ArgoCD clone et synchronise directement les manifests publiquement.
 
@@ -11,15 +11,20 @@ Comme le dépôt est public, **aucun secret ni token d'authentification Git n'es
 ```text
 argocd/
 ├── install/
-│   ├── namespace.yaml           # Namespace argocd
-│   └── kustomization.yaml       # Installation officielle d'ArgoCD (v2.10.4)
-├── application.yaml             # Application ArgoCD (observe base/ et auto-synchronise)
-└── README.md                    # Guide pas-à-pas
+│   ├── namespace.yaml             # Namespace argocd
+│   └── kustomization.yaml         # Installation officielle d'ArgoCD (v2.10.4)
+├── root-app.yaml                  # Application racine (App of Apps)
+├── apps/                          # Applications enfants observées par root-app
+│   ├── kustomization.yaml         # Agrégateur Kustomize des applications
+│   ├── aws-lbc-app.yaml           # Wave 1 : AWS Load Balancer Controller (kube-system)
+│   ├── kubeflow-app.yaml          # Wave 2 : Kubeflow Pipelines (kubeflow)
+│   └── platform-app.yaml          # Wave 3 : Platform Product Intelligence (product-intelligence)
+└── README.md
 ```
 
 ---
 
-## Procédure de déploiement (2 étapes simples)
+## Procédure de déploiement (2 étapes uniques)
 
 ### 1. Installer ArgoCD dans le cluster
 ```bash
@@ -32,27 +37,19 @@ kubectl wait --for=condition=available deployment -l app.kubernetes.io/part-of=a
 
 ---
 
-### 2. Déployer les applications GitOps
+### 2. Déployer l'Application Racine (App of Apps)
+Une seule commande suffit pour orchestrer l'intégralité du cluster :
+```bash
+kubectl apply -f argocd/root-app.yaml
+```
 
-* **Platform Product Intelligence (observe `base/`) :**
-  ```bash
-  kubectl apply -f argocd/application.yaml
-  ```
+**Séquencement automatique via Sync Waves :**
+1. **Wave 1 (`aws-lbc-app`)** : Installe le contrôleur AWS Load Balancer et ses Webhooks/IngressClasses dans `kube-system`.
+2. **Wave 2 (`kubeflow-app`)** : Installe la stack Kubeflow Pipelines dans le namespace `kubeflow` (avec ses sous-vagues internes : CRDs -> Storage -> Core).
+3. **Wave 3 (`platform-app`)** : Installe les microservices Product Intelligence (`base/`) dans `product-intelligence`.
 
-* **Kubeflow Pipelines (observe `kubeflow/` avec Sync Waves ordonnées) :**
-  ```bash
-  kubectl apply -f argocd/kubeflow-app.yaml
-  ```
-  *L'application orchestre automatiquement le déploiement en vagues séquentielles :*
-  1. **Wave -2** : Namespace & CRDs (`01-crds`)
-  2. **Wave -1** : PersistentVolume & PersistentVolumeClaim (`02-storage`)
-  3. **Wave 0** : Composants core Kubeflow Pipelines (`03-complete`)
-
-* **AWS Load Balancer Controller (observe `aws-load-balancer-controller/`) :**
-  ```bash
-  kubectl apply -f argocd/aws-lbc-app.yaml
-  ```
-
+> [!NOTE]
+> L'application racine `root-app.yaml` n'a **volontairement pas de finalizer** de suppression en cascade, ce qui protège votre cluster contre toute destruction accidentelle de vos applications si la root application venait à être supprimée.
 
 ---
 

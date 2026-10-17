@@ -3,9 +3,9 @@ kind: Application
 metadata:
   name: product-intelligence-platform
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
   finalizers:
-    # Garantit que les ressources dans Kubernetes sont supprimées proprement
-    # si jamais cette Application ArgoCD est détruite
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
@@ -18,8 +18,8 @@ spec:
     namespace: product-intelligence
   syncPolicy:
     automated:
-      prune: true       # Supprime automatiquement du cluster les ressources supprimées de Git
-      selfHeal: true    # Rétablit l'état Git si quelqu'un modifie manuellement le cluster
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
 
