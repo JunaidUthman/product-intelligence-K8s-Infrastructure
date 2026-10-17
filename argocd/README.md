@@ -32,11 +32,22 @@ kubectl wait --for=condition=available deployment -l app.kubernetes.io/part-of=a
 
 ---
 
-### 2. Déployer l'application GitOps
-Cette commande enregistre l'application dans ArgoCD. Dès cet instant, ArgoCD observe le dossier `base/` et applique automatiquement toutes les modifications du dépôt public :
-```bash
-kubectl apply -f argocd/application.yaml
-```
+### 2. Déployer les applications GitOps
+
+* **Platform Product Intelligence (observe `base/`) :**
+  ```bash
+  kubectl apply -f argocd/application.yaml
+  ```
+
+* **Kubeflow Pipelines (observe `kubeflow/` avec Sync Waves ordonnées) :**
+  ```bash
+  kubectl apply -f argocd/kubeflow-app.yaml
+  ```
+  *L'application orchestre automatiquement le déploiement en vagues séquentielles :*
+  1. **Wave -2** : Namespace & CRDs (`01-crds`)
+  2. **Wave -1** : PersistentVolume & PersistentVolumeClaim (`02-storage`)
+  3. **Wave 0** : Composants core Kubeflow Pipelines (`03-complete`)
+
 
 ---
 
