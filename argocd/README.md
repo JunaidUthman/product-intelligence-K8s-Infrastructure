@@ -48,6 +48,11 @@ kubectl wait --for=condition=available deployment -l app.kubernetes.io/part-of=a
   2. **Wave -1** : PersistentVolume & PersistentVolumeClaim (`02-storage`)
   3. **Wave 0** : Composants core Kubeflow Pipelines (`03-complete`)
 
+* **AWS Load Balancer Controller (observe `aws-load-balancer-controller/`) :**
+  ```bash
+  kubectl apply -f argocd/aws-lbc-app.yaml
+  ```
+
 
 ---
 
